@@ -1,5 +1,7 @@
 # Genetic Go
 
+[![Build Status](https://drone.andr.io/api/badges/betandr/genetic-go/status.svg)](https://drone.andr.io/betandr/genetic-go)
+
 _A generic algorithm implementation in Go_
 
 ## Overview 
