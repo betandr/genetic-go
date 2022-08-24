@@ -31,7 +31,7 @@ func solve(evl g.Evaluator, pop g.Population) string {
 		fmt.Printf("generation %d: chromosome: %s fitness: %.1f\n", generation, fittest.Chromosome, fitness)
 
 		if fitness >= 1.0 {
-			return fittest.Chromosome
+			return string(fittest.Chromosome)
 		}
 
 		return s(pop.Evolve(true, evl), generation+1)

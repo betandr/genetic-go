@@ -6,7 +6,7 @@ type Evaluator struct {
 
 func (e *Evaluator) Fittest(pop Population) Organism {
 	return Organism{
-		Chromosome: e.Candidate,
+		Chromosome: []byte(e.Candidate),
 	}
 }
 
