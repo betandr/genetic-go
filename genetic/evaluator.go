@@ -37,5 +37,5 @@ func (e *Evaluator) Fitness(org Organism) float32 {
 	}
 
 	maxScore := len(org.Genes)
-	return 1.0 - (float32(maxScore) - float32(score)/100)
+	return 1.0 - ((float32(maxScore) - float32(score)) / 100)
 }

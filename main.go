@@ -20,12 +20,12 @@ func main() {
 	fmt.Println("solution:  ", solution)
 }
 
-func run(candidate string, evl g.Evaluator, pop g.Population) g.Organism {
+func run(cand string, ev g.Evaluator, pop g.Population) g.Organism {
 	var s func(candidate string, pop *g.Population, generation int) g.Organism
 
 	s = func(candidate string, pop *g.Population, generation int) g.Organism {
-		fittest := evl.Fittest(*pop)
-		fitness := evl.Fitness(fittest)
+		fittest := ev.Fittest(*pop)
+		fitness := ev.Fitness(fittest)
 
 		fmt.Printf("generation %d: chromosome: %s fitness: %.1f\n", generation, fittest, fitness)
 
@@ -33,8 +33,8 @@ func run(candidate string, evl g.Evaluator, pop g.Population) g.Organism {
 			return fittest
 		}
 
-		return s(candidate, pop.Evolve(true, evl), generation+1)
+		return s(candidate, pop.Evolve(true, ev), generation+1)
 	}
 
-	return s(candidate, &pop, 1)
+	return s(cand, &pop, 1)
 }

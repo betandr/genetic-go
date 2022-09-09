@@ -21,7 +21,11 @@ func (p *Population) Populate(size int) {
 
 	for i := range p.Organisms {
 		genes := make([]byte, chromosomeSize)
-		rand.Read(genes) // randomise bytes
+
+		for j := 0; j < chromosomeSize; j++ {
+			genes[j] = byte(math.Round(rand.Float64()))
+		}
+
 		p.Organisms[i] = Organism{Genes: genes}
 	}
 }
@@ -41,22 +45,23 @@ func (p *Population) AddOrganism(index int, org Organism) {
 }
 
 // Evolve the population using crossover and mutation
-func (p *Population) Evolve(elitist bool, eval Evaluator) *Population {
+func (p *Population) Evolve(elitist bool, ev Evaluator) *Population {
 	nextGeneration := Population{}
+	nextGeneration.Populate(len(p.Organisms))
 
 	offset := 0
 
 	if elitist {
-		eliteOrganism := eval.Fittest(*p)
+		eliteOrganism := ev.Fittest(*p)
 		nextGeneration.AddOrganism(0, p.mutate(eliteOrganism))
 		offset++
 	}
 
 	for i := offset; i < len(p.Organisms); i++ {
-		parent1 := p.selectOrganism(eval)
-		parent2 := p.selectOrganism(eval)
-
+		parent1 := p.selectOrganism(ev)
+		parent2 := p.selectOrganism(ev)
 		child := p.crossover(parent1, parent2)
+
 		nextGeneration.AddOrganism(i, p.mutate(child))
 	}
 
@@ -65,15 +70,12 @@ func (p *Population) Evolve(elitist bool, eval Evaluator) *Population {
 
 // mutate an organism with a random rate of 0.015
 func (p *Population) mutate(org Organism) Organism {
-	genes := []byte{}
-	copy(org.Genes, genes)
-
-	for i := range genes {
+	for i := range org.Genes {
 		if rand.Float64() <= mutationRate {
-			genes[i] = byte(math.Round(rand.Float64()))
+			org.Genes[i] = byte(math.Round(rand.Float64()))
 		}
 	}
-	return Organism{genes}
+	return org
 }
 
 // crossover creates a child organism from two parents
